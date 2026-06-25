@@ -1,5 +1,17 @@
 Specksteinofenbau System – Roadmap
 
+Vision
+
+Das System soll zukünftig technische Zeichnungen eines Specksteinofens analysieren und daraus automatisch alle benötigten Bauteile, Schnittpläne und Produktionsinformationen erzeugen.
+
+Langfristiges Ziel:
+
+Der Benutzer soll zukünftig keine Maße mehr eingeben müssen.
+
+Das System erkennt die relevanten Maße selbst aus technischen Zeichnungen und startet den gesamten Produktionsprozess automatisch.
+
+⸻
+
 V1 – Grundsystem
 
 Projektstruktur
@@ -9,14 +21,9 @@ Projektstruktur
 * Regeln in Markdown-Dateien speichern
 * Berechnungslogik erstellen
 
-Grundriss
+Calculator
 
-* Grundriss hochladen
-* Frontansicht hochladen
-* Maße automatisch auslesen
-
-Stückliste
-
+* Maße berechnen
 * Automatische Stückliste erstellen
 * Weitere Ofentypen unterstützen
 * Konfigurierbare Regeln
@@ -32,7 +39,7 @@ SVG-Vorschau
 
 * Einfaches SVG erzeugen
 * Bauteilnamen anzeigen
-* Maße in den Steinen anzeigen
+* Maße anzeigen
 * Automatische Skalierung
 * Verbesserte Darstellung
 
@@ -43,16 +50,19 @@ V2 – Realistische Schnittplanung
 Schnittbreite
 
 * Schnittbreite von 6 mm berücksichtigen
-* Ersten Reinigungsschnitt berücksichtigen
+* Reinigungsschnitt berücksichtigen
 * Letzten Schnitt berücksichtigen
-* Realen Materialverlust berechnen
+* Materialverlust berechnen
 
 Produktionsablauf
 
-* Vertikale Schnitte berechnen
-* Platte um 90° drehen
-* Horizontale Schnitte berechnen
+* Vertikale Schnitte planen
+* Platte drehen
+* Horizontale Schnitte planen
 * Optimale Schnittreihenfolge bestimmen
+* Bediener-Regeln berücksichtigen
+* Winkel erhalten
+* Restplatte erneut verwenden
 
 Bericht
 
@@ -91,6 +101,8 @@ Lager
 * Plattennummer vergeben
 * Dicke speichern
 * Herkunft speichern
+* Gewicht berechnen
+* Warnung bei schweren Platten (>75 kg)
 
 Suche
 
@@ -116,7 +128,7 @@ Qualitätsklassen
 
 Defekte
 
-* Kratzer erkennen
+* Kratzer erfassen
 * Risse erfassen
 * Ausbrüche erfassen
 * Sichtflächen bewerten
@@ -125,23 +137,26 @@ Defekte
 
 V6 – Computer Vision
 
+Projektanalyse
+
+* Grundriss erkennen
+* Frontansicht erkennen
+* Maße automatisch auslesen
+* Bauteile identifizieren
+
 Kamerasystem
 
 * Kamera im Lager installieren
 * Automatische Aufnahme
 * Bilder archivieren
 
-Analyse
+Materialanalyse
 
 * Plattenränder erkennen
-* Defekte erkennen
 * Kratzer erkennen
 * Risse erkennen
-
-Nutzfläche
-
+* Defekte erkennen
 * Nutzfläche automatisch berechnen
-* Fehlerbereiche ausschließen
 
 ⸻
 
@@ -177,7 +192,7 @@ Auftragsanalyse
 
 Auswahl
 
-* Geeignete Platte auswählen
+* Geeignete Rohplatte auswählen
 * Passende Familie auswählen
 * Oberfläche berücksichtigen
 
@@ -193,34 +208,46 @@ V9 – Vollautomatisches System
 
 Gesamtprozess
 
-* Grundriss hochladen
-* Frontansicht hochladen
-* Grundrisse erzeugen
+* Technische Zeichnung laden
+* Maße automatisch erkennen
+* Calculator starten
 * Stückliste erzeugen
-* Rohplatten auswählen
+* Rohplatte auswählen
 * Nutzfläche berechnen
 * Schnittplanung erstellen
-* Schnittbreite berücksichtigen
-* SVG generieren
+* SVG erzeugen
 * Reststücke verwalten
 * PDF-Bericht erzeugen
 
 ⸻
 
+V10 – Produktionsassistent
+
+Interaktive Produktion
+
+* Virtuellen Sägetisch darstellen
+* Schnitt Schritt für Schritt anzeigen
+* Platte drehen
+* Reststücke aktualisieren
+* Produktionsfortschritt anzeigen
+
+Bediener-Unterstützung
+
+* Nächsten Schnitt empfehlen
+* Warnung bei schweren Platten
+* Warnung bei instabilen Reststücken
+* Alternative Schnittstrategie vorschlagen
+
+⸻
+
 Langfristige Vision
 
-Automatische Plattenbewertung nach dem Schleifen
+Automatische Produktionsoptimierung
 
 * Oberfläche nach dem Schleifen analysieren
-* Für geschliffene Oberfläche geeignet
-* Für gebürstete Oberfläche geeignet
-* Sichtbare Kratzer erkennen
-* Qualitätsklasse automatisch vergeben
-
-Produktionsunterstützung
-
-* Beste Rohplatte für den Auftrag auswählen
-* Passende Plattenfamilie vorschlagen
-* Nutzfläche automatisch bestimmen
+* Geeignete Oberflächen automatisch bewerten
+* Beste Rohplatte auswählen
+* Passende Plattenfamilie bestimmen
 * Optimale Schnittstrategie berechnen
 * Materialverlust minimieren
+* Vollständige Produktionsunterstützung vom technischen Plan bis zum fertigen Zuschnitt

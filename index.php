@@ -103,6 +103,9 @@ foreach ($positionen as $teil) {
 }
 
 echo '</svg>';
+
+$schnittplan = new schnittplan($result['teile']);
+$schritte = $schnittplan->erstellen();
 ?>
 
 
