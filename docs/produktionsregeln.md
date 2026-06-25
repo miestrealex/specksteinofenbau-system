@@ -1,50 +1,38 @@
-Produktionsregeln
+# Produktionsregeln
 
-Ziel
+## Regel 1
 
-Das System soll nicht nur Bauteile berechnen.
+Vor dem ersten Schnitt erfolgt ein Reinigungsschnitt.
 
-Es soll die Arbeitsweise eines erfahrenen Ofenbauers möglichst realistisch unterstützen.
+---
 
-⸻
+## Regel 2
 
-Regel 1 – Reinigungsschnitt
+Wenn möglich werden zuerst Streifen geschnitten.
 
-Vor dem ersten Schnitt wird ein Reinigungsschnitt durchgeführt.
+---
 
-Ziele:
+## Regel 3
 
-* Beschädigte Kanten entfernen.
-* Einen sauberen Nullpunkt schaffen.
+Der Winkel soll möglichst erhalten bleiben.
 
-⸻
+---
 
-Regel 2 – Schnittreihenfolge
-
-Wenn möglich:
-
-1. Streifen schneiden.
-2. Platte drehen.
-3. Streifen in Bauteile schneiden.
-
-⸻
-
-Regel 3 – Winkel
-
-Solange ein Bauteil als Referenz dient, darf es nicht bewegt werden.
-
-⸻
-
-Regel 4 – Restplatten
+## Regel 4
 
 Restplatten können später erneut verwendet werden.
 
-Der Algorithmus soll dies berücksichtigen.
+---
 
-⸻
+## Regel 5
 
-Regel 5 – Bediener
+Das System unterstützt den Bediener.
 
-Das System macht Vorschläge.
+Die endgültige Entscheidung trifft immer der Bediener.
 
-Die endgültige Entscheidung trifft der Bediener.
+---
+
+## Regel 6
+
+Bauteile durfen nicht gedreht werden.
+Die ursprungliche Orientierung aller Bauteile muss wahrend des gesamten Produktionsprozesses erhalten bleiben.

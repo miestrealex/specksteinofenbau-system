@@ -12,6 +12,7 @@
 
 <?php
 require_once 'src/Calculator.php';
+require_once 'src/schnittplan.php';
 require_once 'src/Aufteilung.php';
 
 $calculator = new Calculator(
@@ -104,8 +105,17 @@ foreach ($positionen as $teil) {
 
 echo '</svg>';
 
-$schnittplan = new schnittplan($result['teile']);
-$schritte = $schnittplan->erstellen();
+$schnittplan = new Schnittplan($result['teile']);
+$gruppen = $schnittplan->gruppierenNachHoehe();
+echo "<h2>Schnittplan V2</h2>";
+foreach ($gruppen as $streifen){
+    echo "<strong>Tira {$streifen->getHoehe()} cm</strong><br>";
+    echo "Gesamtbreite: {$streifen->getGesamtbreite()} cm <br><br>";
+    foreach($streifen->getTeile() as $teil){
+        echo $teil['id'] . " (" .$teil['laenge']. " cm)<br>";
+    }
+    echo "<br>";
+}
 ?>
 
 
