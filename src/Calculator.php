@@ -1,29 +1,32 @@
 <?php
-
+require_once 'src/Bauteil.php';
 class Calculator{
     private float $laenge;
     private float $breite;
     private float $hoehe;
     private float $steinstarke;
     private int $ebenen;
+    private float $sockel;
 
     public function __construct(
         float $laenge,
         float $breite,
         float $hoehe,
         float $steinstarke,
-        int $ebenen
+        int $ebenen,
+        float $sockel         
     ){
         $this->laenge = $laenge;
         $this->breite = $breite;
         $this->hoehe = $hoehe;
         $this->steinstarke = $steinstarke;
         $this->ebenen = $ebenen;
+        $this->sockel = $sockel;
     }
     public function calculate(): array{
         $deckel = ['laenge' => $this->laenge, 'breite' => $this->breite];
 
-        $nutzbareHoehe = $this->hoehe - $this->steinstarke;
+        $nutzbareHoehe = $this->hoehe - $this->steinstarke - $this->sockel;
         $ebenenHoehe = $nutzbareHoehe / $this->ebenen;
 
         $vorderwand = $this->laenge - $this ->steinstarke;
@@ -48,25 +51,38 @@ class Calculator{
 
         $teile = [];
 
-            for ($i =1; $i <=$this ->ebenen; $i++){
-
+            for ($i = 1; $i <= $this->ebenen; $i++) {
                 $stuckliste["Ebenen ".$roman[$i]] = [
                     'V' => [$vorderwand, $ebenenHoehe],
                     'H' => [$hinterwand, $ebenenHoehe],
                     'L' => [$links, $ebenenHoehe],
                     'R' => [$rechts, $ebenenHoehe]
                 ];
-                $teile [] = ['id' => $roman[$i] . ' V', 'laenge' => $vorderwand, 'hoehe' => $ebenenHoehe];
-                $teile [] = ['id' => $roman[$i] . ' H', 'laenge' => $hinterwand, 'hoehe' => $ebenenHoehe];
-                $teile [] = ['id' => $roman[$i] . ' L', 'laenge' => $links, 'hoehe' => $ebenenHoehe];
-                $teile [] = ['id' => $roman[$i] . ' R', 'laenge' => $rechts, 'hoehe' => $ebenenHoehe];
-            }
+
+            // Vorne
+            $teile[] = new Bauteil($roman[$i] . ' V', $vorderwand, $ebenenHoehe);
+
+            // Hinten
+            $teile[] = new Bauteil($roman[$i] . ' H', $hinterwand, $ebenenHoehe);
+
+            // Links 
+            $l = new Bauteil($roman[$i] . ' L', $links, $ebenenHoehe);
+            $l->setHorizontal(false);
+            $teile[] = $l;
+
+            // Rechts
+            $r = new Bauteil($roman[$i] . ' R', $rechts, $ebenenHoehe);
+            $r->setHorizontal(false);
+            $teile[] = $r;
+}
         return[
             'deckel' => $deckel,
             'nutzbareHoehe' => $nutzbareHoehe,
             'ebenenHoehe' => $ebenenHoehe,
             'stuckliste' => $stuckliste,
             'teile' => $teile,
+            'gesamtBreite' => $this->steinstarke + $vorderwand,
+            'gesamtLaenge' => $this->steinstarke + $links,
             'vorderwand' => $vorderwand,
             'hinterwand' => $hinterwand,
             'links' => $links,

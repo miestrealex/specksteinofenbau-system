@@ -19,25 +19,28 @@ class Aufteilung{
         $positionen = [];
 
         foreach ($this->teile as $teil){
-            if ($x + $teil['laenge'] > $this->plattenLaenge){
+            if ($x + $teil->getLaenge() > $this->plattenLaenge){
                 $x = 0;
-                $y +=$teil['hoehe'];
+                $y +=$teil->getHoehe();
             }
+            $teil->setX($x);
+            $teil->setY($y);
+            
             $positionen[] = [
-                'id' => $teil['id'],
+                'id' => $teil->getId(),
                 'x' => $x,
                 'y' => $y,
-                'laenge' => $teil['laenge'],
-                'hoehe' => $teil['hoehe']
+                'laenge' => $teil->getLaenge(),
+                'hoehe' => $teil->getHoehe()
             ];
-            $x += $teil['laenge'];
+            $x += $teil->getLaenge();
             $aktuellBreite =$x;
             if ($aktuellBreite > $maxBreite){
                 $maxBreite = $aktuellBreite;
             }
             
         }
-        $maxHoehe = $y + $teil['hoehe'];
+        $maxHoehe = $y + $teil->getHoehe();
         return [
         'positionen' => $positionen,
         'maxHoehe' => $maxHoehe,

@@ -1,28 +1,25 @@
-<!DOCTYPE html>
-<html lang="de">
-
-<head>
-    <meta charset="UTF-8">
-    <title>Specksteinofenbau</title>
-
-    <link rel="stylesheet" href="assents/css/app.css">
-</head>
-
-<body>
-
 <?php
 require_once 'src/Calculator.php';
 require_once 'src/schnittplan.php';
 require_once 'src/Aufteilung.php';
+require_once 'src/EbenenPlan.php';
+require_once 'src/Bauteil.php';
 
-$calculator = new Calculator(
-    66, // Laenge
-    42, // Breite
-    121, //Hoehe
-    7, //Stein
-    3 //Ebenen
-);
-$result = $calculator->calculate();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $laenge = (float) $_POST['laenge'];
+    $breite = (float) $_POST['breite'];
+    $hoehe = (float) $_POST['hoehe'];
+    $steinstaerke = (float) $_POST['steinstaerke'];
+    $ebenen = (int) $_POST['ebenen'];
+    $sockel = (float) $_POST['sockel'];
+
+    $calculator = new Calculator($laenge, $breite, $hoehe, $steinstaerke, $ebenen, $sockel);
+
+    $result = $calculator->calculate();
+
+  
+
 
 
 $aufteilung = new Aufteilung($result['teile'], 190, 150);
@@ -112,11 +109,71 @@ foreach ($gruppen as $streifen){
     echo "<strong>Tira {$streifen->getHoehe()} cm</strong><br>";
     echo "Gesamtbreite: {$streifen->getGesamtbreite()} cm <br><br>";
     foreach($streifen->getTeile() as $teil){
-        echo $teil['id'] . " (" .$teil['laenge']. " cm)<br>";
+        echo $teil->getId() . " (" .$teil->getLaenge() . " cm)<br>";
     }
     echo "<br>";
 }
+
+
+$ebenenPlan = new EbenenPlan($result['teile'], $result['gesamtBreite'], $result['gesamtLaenge']);
+echo $ebenenPlan ->render($steinstaerke);
+
+
+
+
+
+}
+
 ?>
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Specksteinofenbau</title>
+
+    <!--<link rel="stylesheet" href="assents/css/app.css">-->
+</head>
+
+<body>
+<div class="container">
+    <h1>Neues Projekt</h1>
+    <form action="" method="POST">
+
+    <label for="typ">Ofentyp</label>
+    <select name="typ" id="typ">
+        <option value="rechteckig">Rechteckiger Ofen</option>
+    </select>
+
+    <label for="laenge">Gesamtlaenge</label>
+    <input type="number" id="laenge" name="laenge">
+
+    <label for="breite">Gesamtbreite</label>
+    <input type="number" id="breite" name="breite">
+
+    <label for="hoehe">Gesamthöhe</label>
+    <input type="number" id="hoehe" name="hoehe">
+
+    <label for="steinstaerke">Steinstärke</label>
+    <select id="steinstaerke" name="steinstaerke">
+        <option value="5">5 cm</option>
+        <option value="7">7 cm</option>
+    </select>
+
+    <label for="ebenen">Anzahl Ebenen</label>
+    <input type="number" id="ebenen" name="ebenen">
+
+    <label for="sockel">Sockel</label>
+    <input type="number" id="sockel" name="sockel" value="0">
+
+
+
+
+    <button type="submit">Berechnen</button>
+
+</form>
+</div>
+
 
 
 </body>

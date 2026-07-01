@@ -21,9 +21,9 @@ class Streifen {
     public function __construct(float $hoehe){
         $this->hoehe = $hoehe;
     }
-    public function addTeil(array $teil): void {
+    public function addTeil(Bauteil $teil): void {
         $this->teile[] = $teil;
-        $this->gesamtbreite += $teil ['laenge'];
+        $this->gesamtbreite += $teil->getLaenge();
 
     }
 }

@@ -9,7 +9,7 @@ class Schnittplan{
         $gruppen = [];
         foreach ($this->teile as $teil){
             
-            $hoehe = $teil['hoehe'];
+            $hoehe = $teil->getHoehe();
             if (!isset($gruppen [$hoehe])){
                 $gruppen[$hoehe] = new Streifen($hoehe);
             }
