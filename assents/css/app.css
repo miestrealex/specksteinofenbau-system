@@ -18,3 +18,16 @@ svg text{
     dominant-baseline: middle;
     font-family: Arial, Helvetica, sans-serif;
 }
+
+.ebenenplan-svg text {
+    text-anchor: middle;
+    dominant-baseline: middle;
+    font-family: 'Times New Roman', Times, serif;
+}
+.ebene-id {
+    font-size: 12px;
+    font-weight: bold;
+}
+.ebene-mass {
+    font-size: 10px;
+}

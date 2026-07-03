@@ -59,8 +59,28 @@ class Bauteil{
             $height = $this->laenge / $this->scale * $this->pixelProcm;
         }
 
+        $x = $this->x / $this->scale * $this->pixelProcm;
+        $y = $this->y / $this->scale * $this->pixelProcm;
 
-        return "<rect x='" . ($this->x / $this->scale * $this->pixelProcm) . "' y='" . ($this->y / $this->scale * $this->pixelProcm) . "' width='{$width}' height='{$height}' fill='#bab6b6' stroke='#3e3a3a' stroke-width='3'/>";
+        $cx = $x + $width / 2;  
+        $cy = $y + $height / 2;
+
+        $rotation = "";
+
+        if (!$this->horizontal) {
+            $rotation = " transform='rotate(-90 {$cx} {$cy})'";
+        }
+
+    return
+        "<rect x='{$x}' y='{$y}' width='{$width}' height='{$height}' fill='#bab6b6' stroke='#3e3a3a' stroke-width='3'/>"
+        . "<text x='{$cx}' y='" . ($cy - 6) . "' class='ebene-id'{$rotation}>
+            {$this->id}
+        </text>"
+
+        . "<text x='{$cx}' y='" . ($cy + 6) . "' class='ebene-mass'{$rotation}>
+            {$this->laenge} × {$this->hoehe} cm
+        </text>";
+        
     }
 
         

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $laenge = (float) $_POST['laenge'];
     $breite = (float) $_POST['breite'];
-    $hoehe = (float) $_POST['hoehe'];
+    $hoehe = round((float) $_POST['hoehe'] * 2) / 2;
     $steinstaerke = (float) $_POST['steinstaerke'];
     $ebenen = (int) $_POST['ebenen'];
     $sockel = (float) $_POST['sockel'];
@@ -132,7 +132,7 @@ echo $ebenenPlan ->render($steinstaerke);
     <meta charset="UTF-8">
     <title>Specksteinofenbau</title>
 
-    <!--<link rel="stylesheet" href="assents/css/app.css">-->
+    <link rel="stylesheet" href="assents/css/app.css">
 </head>
 
 <body>
@@ -152,12 +152,12 @@ echo $ebenenPlan ->render($steinstaerke);
     <input type="number" id="breite" name="breite">
 
     <label for="hoehe">Gesamthöhe</label>
-    <input type="number" id="hoehe" name="hoehe">
+    <input type="number" id="hoehe" name="hoehe" step="0.5" min="0">
 
     <label for="steinstaerke">Steinstärke</label>
     <select id="steinstaerke" name="steinstaerke">
-        <option value="5">5 cm</option>
         <option value="7">7 cm</option>
+        <option value="5">5 cm</option>
     </select>
 
     <label for="ebenen">Anzahl Ebenen</label>

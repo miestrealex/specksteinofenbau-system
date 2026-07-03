@@ -27,7 +27,7 @@ class Calculator{
         $deckel = ['laenge' => $this->laenge, 'breite' => $this->breite];
 
         $nutzbareHoehe = $this->hoehe - $this->steinstarke - $this->sockel;
-        $ebenenHoehe = $nutzbareHoehe / $this->ebenen;
+        $ebenenHoehe = round(($nutzbareHoehe / $this->ebenen) * 2) / 2;
 
         $vorderwand = $this->laenge - $this ->steinstarke;
         $hinterwand = $this->laenge - $this ->steinstarke;

@@ -3,6 +3,8 @@ class EbenenPlan {
     private array $teile;
     private float $gesamtBreite;
     private float $gesamtLaenge;
+    private float $padding = 12;
+
 
     public function __construct(array $teile, float $gesamtBreite, float $gesamtLaenge){
         $this->teile = $teile;
@@ -24,11 +26,16 @@ class EbenenPlan {
         $ebenen = $this ->gruppierNachEbene();
         $html = "";
         foreach ($ebenen as $ebene =>$teile){
-            $this->positionereWaende($teile, $steinstaerke, $this->gesamtBreite, $this->gesamtLaenge);
+            $this->positionereWaende($teile, $steinstaerke, $this->gesamtBreite, $this->gesamtLaenge, $ebene);
             $html .= "<h2>Ebene {$ebene}</h2>";
-            $html .= "<svg width ='800' height='400' style='border:1px solid black; margin-bottom:20px;'>";
-
+            $margin = 50;
+            $svgWidth = $this->gesamtBreite * 4 + $margin * 2;
+            $svgHeight = $this->gesamtLaenge * 4 + $margin * 2;
+            $html .= "<svg class='ebenenplan-svg' width ='{$svgWidth}' height='{$svgHeight}'  margin-bottom:20px;'>";
+            $html .= $this->renderMasse($steinstaerke);
+           
             foreach ($teile as $teil) {
+
                 $html .= $teil->renderSvg($steinstaerke);
             }
             $html .="</svg>";
@@ -36,7 +43,11 @@ class EbenenPlan {
         return $html;
 
     }
-    public function positionereWaende(array &$teile, float $steinstarke, float $gesamtBreite, $gesamtLaenge): void {
+    public function positionereWaende(array &$teile, float $steinstaerke, float $gesamtBreite, $gesamtLaenge, string $ebene): void {
+        $ebeneNummer = ['I'=>1, 'II'=> 2, "III"=>3, 'IV'=>4, 'V'=>5];
+        $ebene = $ebeneNummer[$ebene];
+        $padding = $this->padding;
+
         foreach ($teile as $teil){
             $seiteId = explode(" ", $teil->getId());
 
@@ -46,23 +57,89 @@ class EbenenPlan {
             $seite = $seiteId[1];
             switch ($seite){
                 case 'V': 
-                    $teil ->setX(0);
-                    $teil ->setY(0);
-                    break;
+                    if ($ebene % 2 == 0){
+                        $teil ->setX($padding);
+                        $teil ->setY($padding);
+                    } else{
+                        $teil ->setX($steinstaerke + $padding);
+                        $teil ->setY($padding);
+                    }
+                break;
                 case 'H': 
-                    $teil ->setX($steinstarke);
-                    $teil ->setY($gesamtLaenge - $steinstarke );
+                    if ($ebene % 2 == 0){
+                        $teil ->setX($steinstaerke + $padding);
+                        $teil ->setY($gesamtLaenge - $steinstaerke + $padding);
+                    }else{
+                        $teil ->setX($padding);
+                        $teil ->setY($gesamtLaenge - $steinstaerke + $padding);
+                    }
                     break;
-                case 'L': 
-                    $teil ->setX(0);
-                    $teil ->setY($steinstarke);
+                case 'L':
+                    if($ebene % 2 == 0){ 
+                        $teil ->setX($padding);
+                        $teil ->setY($steinstaerke + $padding);
+                    }else{
+                        $teil ->setX($padding);
+                        $teil ->setY($padding);
+                    } 
+
                     break;
                 case 'R': 
-                    $teil ->setX($gesamtBreite - $steinstarke);
-                    $teil ->setY(0);
+                    if ($ebene % 2 == 0){
+                        $teil ->setX($gesamtBreite - $steinstaerke + $padding);
+                        $teil ->setY($padding);
+                    }else{
+                        $teil ->setX($gesamtBreite - $steinstaerke + $padding);
+                        $teil ->setY($steinstaerke + $padding);
+                    }
                     break;
             }
         }
 
+    }
+    private function renderMasse(float $steinstaerke): string {
+    $scale = 10;
+    $pixelProcm = 40;
+
+    $padding = $this->padding;
+
+    $breite = $this->gesamtBreite / $scale * $pixelProcm;
+    $hoehe = $this->gesamtLaenge / $scale * $pixelProcm;
+
+    $x = $padding / $scale * $pixelProcm;
+    $y = $padding / $scale * $pixelProcm;
+
+    return
+
+    "<line
+        x1='{$x}'
+        y1='" . ($y - 15) . "'
+        x2='" . ($x + $breite) . "'
+        y2='" . ($y - 15) . "'
+        stroke='red'
+        stroke-width='2'/>"
+
+    . "<text
+        x='" . ($x + $breite / 2) . "'
+        y='" . ($y - 25) . "'
+        class='ebene-mass'>
+        {$this->gesamtBreite} cm
+      </text>"
+
+    . "<line
+        x1='" . ($x - 15) . "'
+        y1='{$y}'
+        x2='" . ($x - 15) . "'
+        y2='" . ($y + $hoehe) . "'
+        stroke='red'
+        stroke-width='2'/>"
+
+    . "<text
+        x='" . ($x - 25) . "'
+        y='" . ($y + $hoehe / 2) . "'
+        transform='rotate(-90 " . ($x - 25) . " " . ($y + $hoehe / 2) . ")'
+        class='ebene-mass'>
+        {$this->gesamtLaenge} cm
+      </text>";
     }
 }
